@@ -1,30 +1,18 @@
-import React, { useContext } from 'react';
-import { TodoContext } from '../context/TodoContext';
+import { memo } from 'react';
+import { useTodos } from '../context/TodoContext';
 
 function TodoItem({ todo }) {
-  const { todos, setTodos } = useContext(TodoContext);
-
-  function toggle() {
-    setTodos(
-      todos.map(t => t.id === todo.id ? { ...t, done: !t.done } : t)
-    );
-  }
-
-  function remove() {
-    setTodos(todos.filter(t => t.id !== todo.id));
-  }
+  const { toggleTodo, removeTodo } = useTodos();
 
   return (
-    <li>
-      <span
-        style={{ textDecoration: todo.done ? 'line-through' : 'none', cursor: 'pointer' }}
-        onClick={toggle}
-      >
-        {todo.text}
-      </span>
-      <button onClick={remove}>Remover</button>
+    <li className={`todo-item ${todo.done ? 'done' : ''}`}>
+      <button className="check-button" aria-label={todo.done ? `Reabrir ${todo.text}` : `Concluir ${todo.text}`} onClick={() => toggleTodo(todo.id)}>
+        {todo.done ? '✓' : ''}
+      </button>
+      <span>{todo.text}</span>
+      <button className="remove-button" aria-label={`Remover ${todo.text}`} onClick={() => removeTodo(todo.id)}>Remover</button>
     </li>
   );
 }
 
-export default TodoItem;
+export default memo(TodoItem);

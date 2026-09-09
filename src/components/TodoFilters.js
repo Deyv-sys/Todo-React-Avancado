@@ -1,15 +1,13 @@
-import React, { useContext, useState } from 'react';
-import { TodoContext } from '../context/TodoContext';
+import { memo } from 'react';
 
-function TodoFilters({ setFilter }) {
+function TodoFilters({ filter, setFilter }) {
   return (
-    <div>
-      <button onClick={() => setFilter('ALL')}>Todas</button>
-      <button onClick={() => setFilter('DONE')}>Concluídas</button>
-      <button onClick={() => setFilter('PENDING')}>Pendentes</button>
-      <button onClick={() => setFilter('ALL')}>Limpar Filtro</button>
+    <div className="filters" role="group" aria-label="Filtrar tarefas">
+      <button className={filter === 'ALL' ? 'active' : ''} onClick={() => setFilter('ALL')}>Todas</button>
+      <button className={filter === 'DONE' ? 'active' : ''} onClick={() => setFilter('DONE')}>Concluídas</button>
+      <button className={filter === 'PENDING' ? 'active' : ''} onClick={() => setFilter('PENDING')}>Pendentes</button>
     </div>
   );
 }
 
-export default TodoFilters;
+export default memo(TodoFilters); 
